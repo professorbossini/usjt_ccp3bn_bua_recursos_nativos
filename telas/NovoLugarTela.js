@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { View, StyleSheet, Text, Button, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, Button, ScrollView, TextInput } from 'react-native';
 import Cores from '../constantes/Cores';
-
+import * as lugaresActions from '../store/lugares-actions';
+import TiraFoto from '../componentes/TiraFoto';
 
 
 const NovoLugarTela = (props) => {
     const [novoLugar, setNovoLugar] = useState('');
 
+    const dispatch = useDispatch();
     const novoLugarAlterado = (texto) => {
         setNovoLugar(texto);
+    }
+
+    const [imagemURI, setImagemURI] = useState();
+
+    const fotoTirada = (imagemURI) => {
+        setImagemURI(imagemURI);
+    }
+
+    const adicionarLugar = () => {
+        dispatch(lugaresActions.addLugar(novoLugar, imagemURI));
+        props.navigation.goBack();
     }
     return (
         <ScrollView>
@@ -20,10 +34,11 @@ const NovoLugarTela = (props) => {
                     onChangeText={novoLugarAlterado}
                     value={novoLugar}
                 />
+                <TiraFoto onFotoTirada={fotoTirada} />
                 <Button
                     title="Salvar lugar"
                     color={Cores.primary}
-                    onPress={novoLugarAlterado}
+                    onPress={adicionarLugar}
                 />
             </View>
         </ScrollView>
