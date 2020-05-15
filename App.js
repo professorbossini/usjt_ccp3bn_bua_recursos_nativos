@@ -4,6 +4,16 @@ import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import LugaresNavigator from './navegacao/LugaresNavigator';
 import lugaresReducer from './store/lugares-reducer';
+import { init } from './helpers/db';
+
+
+init()
+  .then((resultado) => {
+    console.log("Deu certo a criação da base: " + JSON.stringify(resultado));
+  })
+  .catch((err) => {
+    console.log("Falhou a criação da base: " + JSON.stringify(err));
+  });
 
 const rootReducer = combineReducers({
   lugares: lugaresReducer
